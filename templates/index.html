@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WSI Clip</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <h1>WSI Clip</h1>
+            <p class="subtitle">WSI画像クリッピングツール</p>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <!-- サイドバー：ファイル選択 -->
+            <aside class="sidebar">
+                <h2>ファイル選択</h2>
+                <div class="file-list" id="file-list">
+                    <!-- JavaScriptで動的に生成 -->
+                </div>
+
+                <div class="slide-info" id="slide-info">
+                    <!-- スライド情報表示 -->
+                </div>
+            </aside>
+
+            <!-- 画像表示エリア -->
+            <section class="viewer-section">
+                <div class="viewer-controls">
+                    <button id="btn-reset" class="btn" disabled>全体表示に戻る</button>
+                    <button id="btn-apply" class="btn btn-primary" disabled>選択範囲を適用</button>
+                    <span class="selection-mode">
+                        <label>
+                            <input type="checkbox" id="chk-square">
+                            正方形選択 (Shift)
+                        </label>
+                    </span>
+                </div>
+
+                <div class="canvas-container" id="canvas-container">
+                    <canvas id="image-canvas"></canvas>
+                    <canvas id="selection-canvas"></canvas>
+                    <div class="placeholder" id="placeholder">
+                        左のリストからファイルを選択してください
+                    </div>
+                </div>
+
+                <div class="view-info" id="view-info">
+                    <!-- 現在の視野情報 -->
+                </div>
+            </section>
+
+            <!-- 保存パネル -->
+            <aside class="save-panel">
+                <h2>画像保存</h2>
+                <div class="save-form">
+                    <label for="save-filename">ファイル名:</label>
+                    <input type="text" id="save-filename" placeholder="output">
+
+                    {% if client_save %}
+                    <div class="save-options">
+                        <label>
+                            <input type="radio" name="save-mode" value="server" checked>
+                            サーバーに保存
+                        </label>
+                        <label>
+                            <input type="radio" name="save-mode" value="client">
+                            ダウンロード
+                        </label>
+                    </div>
+                    {% endif %}
+
+                    <button id="btn-save" class="btn btn-success" disabled>保存</button>
+                </div>
+
+                <div class="save-result" id="save-result">
+                    <!-- 保存結果表示 -->
+                </div>
+            </aside>
+        </main>
+
+        <!-- ステータスバー -->
+        <footer class="status-bar" id="status-bar">
+            準備完了
+        </footer>
+    </div>
+
+    <!-- 設定を埋め込み -->
+    <script>
+        const CONFIG = {
+            clientSaveEnabled: {{ 'true' if client_save else 'false' }}
+        };
+    </script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
